@@ -40,10 +40,12 @@ can.height = canH;
 can.style.background = "#fff";
 
 
+const ratio = 200;
+
+const center = new C(-0.75, 0);
 
 const numOfCalc = 50;
 
-const ratio = 1;
 
 function check(x, y) {
 
@@ -55,7 +57,7 @@ function check(x, y) {
         if (c.getAbs() > 2) {
             return i;
         }
-        i++
+        i++;
     }
 
     return i;
@@ -65,8 +67,20 @@ function check(x, y) {
 function drawAll() {
     for (let y = 0; y < canH; y++) {
         for (let x = 0; x < canW; x++) {
-            const result = check((x - canW * 0.75) / (canW / 2), (y - canH / 2) / (canH / 2));
-            con.fillStyle = `rgba(0, 0, 0, ${result / numOfCalc})`;
+            const a = (x - canW / 2) / ratio + center.a;
+            const b = -(y - canH / 2) / ratio + center.b;
+            const result = check(a, b);
+            // con.fillStyle = `rgba(0, 0, 0, ${result / numOfCalc})`;
+            if (result === numOfCalc) {
+                con.fillStyle = "black";
+            }
+            // else if(result === numOfCalc - 1) {
+            //     con.fillStyle = "red";
+            // }
+            else {
+                con.fillStyle = `hsl(${(1 - result / numOfCalc) * 240}, 100%, 50%)`;
+                // con.fillStyle = "white";
+            }
             con.fillRect(x, y, 1, 1);
 
         }
